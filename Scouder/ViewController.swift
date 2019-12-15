@@ -8,6 +8,7 @@
 
 import UIKit
 import WebKit
+import CoreData
 
 enum scrollType{
     
@@ -15,17 +16,19 @@ enum scrollType{
     case down
 }
 
-class WebPage: UIViewController, UIGestureRecognizerDelegate {
+class WebPage: UIViewController, UIGestureRecognizerDelegate, WKNavigationDelegate {
 
     @IBOutlet weak var nextView: UIView!
     
     @IBOutlet weak var baseBottomNav: UIView!
     @IBOutlet weak var webView: WKWebView!
     
+    @IBOutlet weak var nextLinkButtonOut: UIButton!
     var outWay:Bool?
-    
+    var pageNum:Int = 0
     var direction:scrollType?
     
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     @IBAction func queueControl(_ sender: Any) {
         handleTap()
@@ -35,14 +38,26 @@ class WebPage: UIViewController, UIGestureRecognizerDelegate {
         }
     }
     
+    @IBOutlet weak var topBarNav: UIView!
     
     
     @IBAction func backButton(_ sender: Any) {
-        
-        UIView.animate(withDuration: 0.4) {
-            self.baseBottomNav.alpha = 1.0
-        }
+        goBac()
+        handleTap()
         outWay = false
+        pageNum -= 1
+        if(!webView.canGoBack){
+              backButtonOut.isEnabled = false
+          }
+          else{
+            backButtonOut.isEnabled = true
+        }
+          if(!webView.canGoForward){
+              nextButtonOut.isEnabled = false
+          }
+          else{
+            nextButtonOut.isEnabled = true
+        }
     }
     
     
@@ -55,36 +70,123 @@ class WebPage: UIViewController, UIGestureRecognizerDelegate {
             
             self.nextView.frame.origin.x -= 50  
         }
+        
         outWay = false
-        
-        
+        pageNum += 1
+        loadPage(urlString: loadLink()[pageNum].url!)
         
     }
+    
+    @IBOutlet weak var backButtonOut: UIButton!
+    
+    @IBOutlet weak var nextButtonOut: UIButton!
+    
     @IBAction func nextButton(_ sender: Any) {
-        
-        UIView.animate(withDuration: 0.4) {
-            self.baseBottomNav.alpha = 1.0
-        }
+        goFor()
+        handleTap()
         outWay = false
+        if(!webView.canGoBack){
+              backButtonOut.isEnabled = false
+          }
+          else{
+            backButtonOut.isEnabled = true
+        }
+          if(!webView.canGoForward){
+              nextButtonOut.isEnabled = false
+          }
+          else{
+            nextButtonOut.isEnabled = true
+        }
+    }
+    func goFor(){
+        
+        if(webView.canGoForward == true){
+            webView.goForward()
+        }
+        
+    }
+    func goBac(){
+        if(webView.canGoBack == true){
+            webView.goBack()
+        }
+        
     }
     @objc func handleTap(_ sender: UITapGestureRecognizer? = nil) {
         UIView.animate(withDuration: 0.4) {
             self.baseBottomNav.alpha = 1.0
         }
         if(outWay == true){
+            
+            
+            
             UIView.animate(withDuration: 0.4) {
+                
+                    self.webView.frame.origin.y += 50
+                    
+                    self.webView.frame.size.height -= 50
+                
+                self.topBarNav.frame.origin.y += 50
                 self.nextView.frame.origin.x -= 50
             }
         }
         
         outWay = false
     }
-        
+         func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+            print(pageNum)
+            if(pageNum == loadLink().count - 1){
+                nextLinkButtonOut.isEnabled = false
+                nextLinkButtonOut.layer.opacity = 0.52
+                nextView.layer.opacity = 0.52
+            }
+            else{
+                nextLinkButtonOut.isEnabled = true
+                nextLinkButtonOut.layer.opacity = 1.0
+                nextView.layer.opacity = 1.0
+            }
+           
+            if(!webView.canGoBack){
+                  backButtonOut.isEnabled = false
+              }
+              else{
+                backButtonOut.isEnabled = true
+            }
+              if(!webView.canGoForward){
+                  nextButtonOut.isEnabled = false
+              }
+              else{
+                nextButtonOut.isEnabled = true
+            }
+            
+            
+            
+          }
     
     override func viewDidLoad() {
         
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        if(loadLink().count > 0){
+            loadPage(urlString: loadLink()[0].url!)
+        }
+        if(pageNum == loadLink().count){
+            nextLinkButtonOut.isEnabled = false
+        }
+        webView.navigationDelegate = self
+        if(!webView.canGoBack){
+              backButtonOut.isEnabled = false
+          }
+          else{
+            backButtonOut.isEnabled = true
+        }
+          if(!webView.canGoForward){
+              nextButtonOut.isEnabled = false
+          }
+          else{
+            nextButtonOut.isEnabled = true
+        }
+        
+        
         outWay = false
        nextView.layer.cornerRadius = 0.5 * nextView.bounds.size.width
        nextView.clipsToBounds = true
@@ -92,7 +194,7 @@ class WebPage: UIViewController, UIGestureRecognizerDelegate {
         nextView.layer.zPosition = 2
         baseBottomNav.layer.zPosition = 2
         
-        loadPage(urlString: "https://www.google.com")
+       
         
         baseBottomNav.layer.cornerRadius = 10
         
@@ -114,7 +216,34 @@ class WebPage: UIViewController, UIGestureRecognizerDelegate {
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.handleTap(_:)))
         
         baseBottomNav.addGestureRecognizer(tap)
+        
+        
+        
+        
     }
+    
+    func loadLink() -> [Link]{
+        var fomework:[Link] = [Link]()
+        let request: NSFetchRequest<Link> = Link.fetchRequest()
+        do{
+            fomework = try context.fetch(request)
+            
+         
+        }
+        catch{
+            print("error")
+        }
+        return fomework
+    }
+     func saveContext(){
+        do{
+            try self.context.save()
+        }
+        catch{
+            print("error occurred")
+        }
+    }
+    
     
     override func viewDidAppear(_ animated: Bool) {
         outWay = false
@@ -139,31 +268,57 @@ class WebPage: UIViewController, UIGestureRecognizerDelegate {
                 
                 print("up")
                 if(outWay == false){
-                    UIView.animate(withDuration: 0.4) {
+                    nextView.translatesAutoresizingMaskIntoConstraints = true
+                    webView.translatesAutoresizingMaskIntoConstraints = true
+                    
+                    topBarNav.translatesAutoresizingMaskIntoConstraints = true
+                    let options: UIView.AnimationOptions = [.allowUserInteraction]
+                    UIView.animate(withDuration: 0.4, delay: 0.0, options: options, animations: {
                         self.nextView.frame.origin.x += 50
-                    
-                    
-                    }
-                    UIView.animate(withDuration: 0.4) {
+                        
+                            self.topBarNav.frame.origin.y -= 50
+                            
+                            
+                            self.webView.frame.origin.y -= 50
+                            
+                            self.webView.frame.size.height += 50
+                            
                         self.baseBottomNav.alpha = 0.2
-                    }
+                            
+                            
+                            self.view.layoutIfNeeded()
+                    }, completion:nil)
+                    
+                        
+                    
+                   
+                   
+                        
+                    
                     outWay = true
                 }
             case .down:
                 print("down")
                 if(outWay == true){
-                    UIView.animate(withDuration: 0.4) {
-                        self.nextView.frame.origin.x -= 50
+                let options: UIView.AnimationOptions = [.allowUserInteraction]
+                UIView.animate(withDuration: 0.4, delay: 0.0, options: options, animations: {
+                    self.nextView.frame.origin.x -= 50
+                        
+                    self.topBarNav.frame.origin.y += 50
                     
+                    self.webView.frame.origin.y += 50
                     
-                    }
-                    UIView.animate(withDuration: 0.4) {
-                        self.baseBottomNav.alpha = 1.0
-                    }
+                    self.webView.frame.size.height -= 50
+                    
+                    self.baseBottomNav.alpha = 1.0
+                }, completion: nil)
+                
+                    
                     print("before \(outWay)")
                     outWay = false
                     print("after \(outWay)")
                 }
+                
             default:
                 print("default")
             }
@@ -182,4 +337,3 @@ class WebPage: UIViewController, UIGestureRecognizerDelegate {
         outWay = false
     }
 }
-

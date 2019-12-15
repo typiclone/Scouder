@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B70DF74239C44C80039C629 /* urlCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B70DF73239C44C80039C629 /* urlCell.swift */; };
 		6B9E0A1C239084C400B811E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E0A1B239084C400B811E6 /* AppDelegate.swift */; };
 		6B9E0A1E239084C400B811E6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E0A1D239084C400B811E6 /* SceneDelegate.swift */; };
 		6B9E0A20239084C400B811E6 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E0A1F239084C400B811E6 /* ViewController.swift */; };
@@ -16,6 +17,7 @@
 		6B9E0A2B2390851F00B811E6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6B9E0A292390851F00B811E6 /* LaunchScreen.storyboard */; };
 		6B9E0A362390852500B811E6 /* ScouderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E0A352390852500B811E6 /* ScouderTests.swift */; };
 		6B9E0A412390852500B811E6 /* ScouderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6B9E0A402390852500B811E6 /* ScouderUITests.swift */; };
+		6BD30A6D23949F49001F8FCD /* LinkQueue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD30A6C23949F49001F8FCD /* LinkQueue.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +38,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6B70DF73239C44C80039C629 /* urlCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = urlCell.swift; sourceTree = "<group>"; };
 		6B9E0A18239084C400B811E6 /* Scouder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Scouder.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B9E0A1B239084C400B811E6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6B9E0A1D239084C400B811E6 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -51,6 +54,7 @@
 		6B9E0A3C2390852500B811E6 /* ScouderUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ScouderUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6B9E0A402390852500B811E6 /* ScouderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScouderUITests.swift; sourceTree = "<group>"; };
 		6B9E0A422390852500B811E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6BD30A6C23949F49001F8FCD /* LinkQueue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinkQueue.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,6 +113,8 @@
 				6B9E0A292390851F00B811E6 /* LaunchScreen.storyboard */,
 				6B9E0A2C2390851F00B811E6 /* Info.plist */,
 				6B9E0A24239084C600B811E6 /* Scouder.xcdatamodeld */,
+				6BD30A6C23949F49001F8FCD /* LinkQueue.swift */,
+				6B70DF73239C44C80039C629 /* urlCell.swift */,
 			);
 			path = Scouder;
 			sourceTree = "<group>";
@@ -262,10 +268,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6BD30A6D23949F49001F8FCD /* LinkQueue.swift in Sources */,
 				6B9E0A20239084C400B811E6 /* ViewController.swift in Sources */,
 				6B9E0A26239084C600B811E6 /* Scouder.xcdatamodeld in Sources */,
 				6B9E0A1C239084C400B811E6 /* AppDelegate.swift in Sources */,
 				6B9E0A1E239084C400B811E6 /* SceneDelegate.swift in Sources */,
+				6B70DF74239C44C80039C629 /* urlCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
