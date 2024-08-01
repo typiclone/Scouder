@@ -198,7 +198,7 @@ class WebPage: UIViewController, UIGestureRecognizerDelegate, WKNavigationDelega
         
         baseBottomNav.layer.cornerRadius = 10
         
-        print(nextView.frame)
+       
         
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.handleGesture(gesture:)))
         swipeUp.delegate = self
@@ -266,7 +266,7 @@ class WebPage: UIViewController, UIGestureRecognizerDelegate, WKNavigationDelega
             switch swipeGesture.direction{
             case .up:
                 
-                print("up")
+               
                 if(outWay == false){
                     nextView.translatesAutoresizingMaskIntoConstraints = true
                     webView.translatesAutoresizingMaskIntoConstraints = true
@@ -314,9 +314,9 @@ class WebPage: UIViewController, UIGestureRecognizerDelegate, WKNavigationDelega
                 }, completion: nil)
                 
                     
-                    print("before \(outWay)")
+                  
                     outWay = false
-                    print("after \(outWay)")
+              
                 }
                 
             default:
@@ -327,13 +327,11 @@ class WebPage: UIViewController, UIGestureRecognizerDelegate, WKNavigationDelega
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        print("Nigga bEANS")
         outWay = false
         
         
     }
     override func viewWillDisappear(_ animated: Bool) {
-        print("Nigga bEANS")
         outWay = false
     }
 }
