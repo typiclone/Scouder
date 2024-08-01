@@ -32,22 +32,16 @@ class LinkQueue: UIViewController, UITableViewDelegate, UITableViewDataSource, U
             
                 let indexPath = IndexPath(row: 0, section: n)
                 let cell = tableView.cellForRow(at: indexPath) as? urlCell
-                print("YEET")
-                print()
                 if(cell?.urlField.text != loadLink()[n].url!){
                     loadLink()[n].url! = (cell?.urlField.text)!
                     saveContext()
                 }
-                print("YEET")
             
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "linkCell") as! urlCell
-        print(sectionz)
-    print("NIGGA BEAnS")
-       print(loadLink())
         
         
         cell.urlField?.text = loadLink()[sectionz].url
@@ -263,15 +257,10 @@ class LinkQueue: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     
     @objc func addLinkTap(){
         var newLink:Link = Link(context: context)
-        print("NIGGA CHEES")
-        print(field2.text)
         newLink.name = field1.text!
         newLink.url = field2.text! 
-        print(newLink.url)
         
         saveContext()
-        print(loadLink()[loadLink().count - 1].url)
-        print(loadLink())
         addLink(self)
         tableView.reloadData()
         sectionz = 0
